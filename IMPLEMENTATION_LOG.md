@@ -4,6 +4,12 @@ Running history of what's been built and why. One entry per commit, newest first
 
 ---
 
+## 467e07d — Update backend README and implementation log for Phase 1
+**2026-09-03**
+
+- `backend/README.md` — checked off the Phase 1 checklist with what actually happened (port 5434, Prisma pinned to 7.10.0, driver adapter, etc.)
+- `IMPLEMENTATION_LOG.md` — added entries for the Phase 1 skeleton and CI commits
+
 ## a1009bf — CI: add Postgres service and run migrations before tests
 **2026-09-03**
 
@@ -63,5 +69,5 @@ Verified with `node --test frontend/src/crypto/vaultCrypto.test.mjs` — all pas
 
 ## Next up
 
-- Phase 1 backend skeleton: Express app, `GET /health`, ORM choice (Prisma or Drizzle), `users`/`vault_entries` schema, first migration
+- Phase 2 backend: `POST /auth/signup`, `GET /auth/salt/:username`, `POST /auth/login`, session auth middleware, `POST /auth/logout`
 - Frontend app scaffold (Vite + React) — doesn't exist yet, only the crypto module does
