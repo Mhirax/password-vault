@@ -4,7 +4,18 @@
   "private": true,
   "description": "API for the password manager vault",
   "main": "src/index.js",
+  "type": "module",
   "scripts": {
-    "test": "echo \"no tests yet\" && exit 0"
+    "dev": "node --env-file-if-exists=.env --watch src/index.js",
+    "start": "node --env-file-if-exists=.env src/index.js",
+    "test": "node --env-file-if-exists=.env --test src/*.test.js"
+  },
+  "dependencies": {
+    "@prisma/adapter-pg": "^7.10.0",
+    "@prisma/client": "^7.10.0",
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "prisma": "^7.10.0"
   }
 }

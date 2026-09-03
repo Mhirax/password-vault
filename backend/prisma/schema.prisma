@@ -1,0 +1,39 @@
+// Prisma schema — see backend/README.md for the data model and API contract this backs.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id        String   @id @default(uuid())
+  username  String   @unique
+  kdfSalt   String   @map("kdf_salt")
+  authHash  String   @map("auth_hash")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  vaultEntries VaultEntry[]
+
+  @@map("users")
+}
+
+model VaultEntry {
+  id                 String   @id @default(uuid())
+  userId             String   @map("user_id")
+  siteName           String   @map("site_name")
+  username           String
+  passwordCiphertext String   @map("password_ciphertext")
+  iv                 String
+  authTag            String   @map("auth_tag")
+  notes              String?
+  url                String?
+  createdAt          DateTime @default(now()) @map("created_at")
+  updatedAt          DateTime @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("vault_entries")
+}
