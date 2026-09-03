@@ -4,6 +4,11 @@ Running history of what's been built and why. One entry per commit, newest first
 
 ---
 
+## f935d1a — Add IMPLEMENTATION_LOG.md
+**2026-09-03**
+
+- `IMPLEMENTATION_LOG.md` — this file. Plain-English commit log kept as a learning trail alongside terse git history, since the point of this project is learning backend concepts while building, not just shipping code.
+
 ## 948f50c — Add client-side vault crypto module
 **2026-09-03**
 
