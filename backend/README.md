@@ -14,19 +14,17 @@ This changes the shape of the auth and `vault-entries` bodies below — the serv
 
 ---
 
-## Phase 1 — Skeleton
+## Phase 1 — Skeleton (done)
 
-- [ ] `npm install express` in `backend/`
-- [ ] Create `src/index.js` — minimal Express app, listens on `process.env.PORT`
-- [ ] Pick an ORM: Prisma or Drizzle, install it
-- [ ] Configure `DATABASE_URL` via `.env` (add `.env.example` with placeholder values — never commit real `.env`)
-- [ ] Define schema from the agreed data model:
-  - `users`: `id`, `username`, `kdf_salt`, `created_at`
-  - `vault_entries`: `id`, `user_id`, `site_name`, `username`, `password_ciphertext`, `iv`, `auth_tag`, `notes`, `url`, `created_at`, `updated_at`
-- [ ] Run the first migration against a local Postgres instance
-- [ ] Add `GET /health` — should also run a trivial DB query, to prove app ↔ DB connectivity, not just that the process is running
-- [ ] Manually test with curl / Thunder Client / Postman
-- [ ] Replace the placeholder `npm test` script with a real (even if minimal) test for `/health`, so CI starts meaning something
+- [x] `npm install express` in `backend/`
+- [x] Create `src/index.js` — minimal Express app, listens on `process.env.PORT` (route logic lives in `src/app.js`, kept separate so tests can import it without binding a port)
+- [x] Pick an ORM: Prisma (7.10.0 — pinned, since npm's `latest` tag currently points at an 8.0 release candidate), installed with the `@prisma/adapter-pg` driver adapter it now requires
+- [x] Configure `DATABASE_URL` via `.env` (`.env.example` added with placeholder values — real `.env` never committed)
+- [x] Define schema from the agreed data model — `users` (`id`, `username`, `kdf_salt`, `auth_hash`, `created_at`) and `vault_entries` (`id`, `user_id`, `site_name`, `username`, `password_ciphertext`, `iv`, `auth_tag`, `notes`, `url`, `created_at`, `updated_at`) — see `prisma/schema.prisma`
+- [x] Ran the first migration against a local Postgres instance (Docker container, since a native Postgres service and another project's container were already on 5432/5433 — this one runs on 5434 locally)
+- [x] `GET /health` — runs `SELECT 1` via Prisma to prove app ↔ DB connectivity, not just that the process is running
+- [x] Manually tested with curl — `{"status":"ok","db":"connected"}`
+- [x] Replaced the placeholder `npm test` script with a real test (`src/health.test.js`, Node's built-in test runner) — CI now runs a Postgres service and `prisma migrate deploy` before `npm test`
 
 ## Phase 2 — Auth & crypto core
 
