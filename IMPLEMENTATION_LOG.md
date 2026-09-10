@@ -4,6 +4,19 @@ Running history of what's been built and why. One entry per commit, newest first
 
 ---
 
+## Unreleased — `POST /auth/signup`
+**2026-09-10**
+
+First Phase 2 route.
+
+- `backend/src/auth.js` — new auth router, `POST /auth/signup` validates `{ username, kdfSalt, authProof }`, hashes `authProof` with `bcryptjs` (cost 12) into `authHash`, and creates the `User` row. Returns `{ id, username }` — never the hash, salt, or proof. Duplicate usernames hit the `users_username_key` unique constraint (Prisma error `P2002`) and come back as 409, not a 500.
+- `backend/src/app.js` — mounted the auth router at `/auth`.
+- `backend/src/auth.test.js` — 3 tests against the real Postgres instance (create + no ciphertext leakage, duplicate-username 409, missing-field 400), following the same real-DB pattern as `health.test.js`.
+- `backend/package.json` — added `bcryptjs` (pure-JS, avoids native build tooling on Windows that a native `bcrypt` binding would need).
+- `backend/README.md` — checked off the `POST /auth/signup` box in the Phase 2 checklist.
+
+Verified with `npm test` (4/4 passing) and manually via curl: signup returns `201` with `{id, username}`, a repeat signup with the same username returns `409`.
+
 ## 467e07d — Update backend README and implementation log for Phase 1
 **2026-09-03**
 

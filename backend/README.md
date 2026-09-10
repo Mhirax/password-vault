@@ -30,7 +30,7 @@ This changes the shape of the auth and `vault-entries` bodies below — the serv
 
 - [x] Encryption-location decision resolved (client-side, see above)
 - [x] Key derivation module — `frontend/src/crypto/vaultCrypto.mjs` (PBKDF2 + HKDF), tested in `vaultCrypto.test.mjs`
-- [ ] `POST /auth/signup` — client sends `{ username, kdfSalt, authProof }`; backend hashes `authProof` (bcrypt/argon2) and stores it + `kdfSalt`, never the raw value
+- [x] `POST /auth/signup` — client sends `{ username, kdfSalt, authProof }`; backend hashes `authProof` (bcrypt/argon2) and stores it + `kdfSalt`, never the raw value
 - [ ] `GET /auth/salt/:username` — returns the stored `kdfSalt` so the client can derive keys before login
 - [ ] `POST /auth/login` — client sends `{ username, authProof }`; backend compares against the stored hash, issues a session (JWT or httpOnly cookie)
 - [ ] Auth middleware — rejects any vault route without a valid session
